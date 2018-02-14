@@ -63,7 +63,7 @@ class VoiceActivityDetector():
     
     def _sum_energy_in_band(self,energy_frequencies, start_band, end_band):
         sum_energy = 0
-        for f in energy_frequencies.keys():
+        for f in list(energy_frequencies.keys()):
             if start_band<f<end_band:
                 sum_energy += energy_frequencies[f]
         return sum_energy
@@ -101,14 +101,14 @@ class VoiceActivityDetector():
                 speech_label = {}
                 speech_time_start = window[0] / self.rate
                 speech_label['speech_begin'] = speech_time_start
-                print window[0], speech_time_start
+                print(window[0], speech_time_start)
                 #speech_time.append(speech_label)
             if (window[1]==0.0 and is_speech==1):
                 is_speech = 0
                 speech_time_end = window[0] / self.rate
                 speech_label['speech_end'] = speech_time_end
                 speech_time.append(speech_label)
-                print window[0], speech_time_end
+                print(window[0], speech_time_end)
         return speech_time
       
     def plot_detected_speech_regions(self):
@@ -151,6 +151,6 @@ class VoiceActivityDetector():
             speech_ratio = speech_ratio>self.speech_energy_threshold
             detected_windows = np.append(detected_windows,[sample_start, speech_ratio])
             sample_start += sample_overlap
-        detected_windows = detected_windows.reshape(len(detected_windows)/2,2)
+        detected_windows = detected_windows.reshape(int(len(detected_windows)/2),2)
         detected_windows[:,1] = self._smooth_speech_detection(detected_windows)
         return detected_windows
