@@ -18,12 +18,11 @@
 #===============================================================================
 
 set -o nounset                                  # Treat unset variables as an error
-set -x 
 set -e
 
 while true; do
-    arecord -f S16_LE -d 10 /tmp/test.wav && \
-        python ./detectVoiceInWave.py /tmp/test.wav  sys.stdout
+    arecord -f S16_LE -d 5 /tmp/test.wav && \
+        python ./detectVoiceInWave.py -i /tmp/test.wav 
     sleep 1
 done
 
